@@ -10,11 +10,13 @@ Shell   = require \shelljs/global
 W4m     = require \wait.for .forMethod
 W4fib   = require \wait.for .launchFiber
 Args    = require \./args
+ApiGen  = require \./api/generate
 
 express = Express!
   ..set \port, Args.port
   ..use Morgan \dev
-  ..use Express.static __dirname
+  ..use '/api', ApiGen
+  ..use Express.static "#__dirname/app"
   ..use ErrHan!
 
 W4fib ->

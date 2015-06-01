@@ -1,0 +1,19 @@
+mixin css(href)
+  link(rel='stylesheet', href=href)
+
+mixin script(src)
+  script(type='text/javascript', src=src)
+
+doctype html
+html
+  head
+    title ledger-pivot
+    +css('/lib-3p/pivot.css')
+    //+css('app.css')
+    +script('/lib-3p/jquery.js')
+    +script('/lib-3p/jquery-ui-1.11.4/jquery-ui.js')
+    +script('/lib-3p/pivot.js')
+    +script('app.js')
+  body
+    h1 ledger-pivot
+    #output

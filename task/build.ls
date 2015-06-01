@@ -18,6 +18,11 @@ const NMODULES = './node_modules'
 
 pruner = new Cron.CronJob cronTime:'*/10 * * * *', onTick:prune-empty-dirs
 tasks  =
+  jade:
+    cmd : "node #NMODULES/jade/bin/jade.js --out $OUT $IN"
+    ixt : \jade
+    oxt : \html
+    mixn: \_
   livescript:
     cmd   : "#NMODULES/LiveScript/bin/lsc --output $OUT $IN"
     ixt   : \ls
@@ -29,7 +34,12 @@ tasks  =
     oxt : \html
   static:
     cmd : 'cp --target-directory $OUT $IN'
-    pat : '{ledger-pivot,*.{css,js}}'
+    pat : '{ledger-pivot,*.{css,js,png}}'
+  stylus:
+    cmd : "#NMODULES/stylus/bin/stylus -u nib --out $OUT $IN"
+    ixt : \styl
+    oxt : \css
+    mixn: \_
 
 module.exports = me = (new Emitter!) with
   all: ->
@@ -126,7 +136,12 @@ function start-watching tid
   function process act, ipath
     log act, tid, ipath
     <- WFib
-    switch act
+    if (Path.basename ipath).0 is t?mixn
+      try
+        compile-batch tid
+        finalise ipath
+      catch e then G.err e
+    else switch act
       | \add, \change
         try opath = W4 compile, t, ipath
         catch e then return G.err e
