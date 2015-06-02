@@ -18,6 +18,7 @@ dependencies:
   commander    : \2.6.0
   errorhandler : \1.3.2
   express      : \4.11.1
+  'http-status': \0.1.8
   jade         : \1.9.2
   'js-yaml'    : \3.2.5
   LiveScript   : \1.3.0

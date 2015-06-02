@@ -11,11 +11,13 @@ W4m     = require \wait.for .forMethod
 W4fib   = require \wait.for .launchFiber
 Args    = require \./args
 ApiGen  = require \./api/generate
+ApiPer  = require \./api/persist
 
 express = Express!
   ..set \port, Args.port
   ..use Morgan \dev
-  ..use '/api', ApiGen
+  ..get '/api/transactions', ApiGen
+  ..get '/api/persist', ApiPer
   ..use Express.static "#__dirname/app"
   ..use ErrHan!
 

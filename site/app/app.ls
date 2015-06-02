@@ -3,10 +3,13 @@
 window.log = -> console.log ...&
 
 <- $
-$.ajax \/api do
+$.ajax \/api/transactions do
   success: ->
-    log ...
+    is-init = true
     $ \#output .pivotUI it.transactions, it.options <<< do
-      onRefresh: -> log it
-  error: ->
-    log ...
+      onRefresh: ->
+        return is-init := false if is-init
+        $.ajax \/api/persist do
+          data : _.pick it, <[ aggregatorName cols exclusions rendererName rows vals ]>
+          error: -> log ...
+  error: -> log ...
