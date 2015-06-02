@@ -17,6 +17,7 @@ function render
       Year : dateFormat \Date '%y'
       Month: dateFormat \Date '%n'
       Day  : dateFormat \Date '%d'
+    hiddenAttributes: <[ Date ]>
     sorters: ->
       sortAs <[ Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec ]> if it is \Month
     onRefresh: ->
