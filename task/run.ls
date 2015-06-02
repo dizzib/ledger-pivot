@@ -13,12 +13,11 @@ module.exports =
 
 ## helpers
 
-function get-start-site-args
-  "server #{Args.app-dirs * ' '}".trim!
+function get-start-site-cmd then "server"
 
-function kill-node args, cb
+function kill-node cmd, cb
   # can't use WaitFor as we need the return code
-  code, out <- exec cmd = "pkill -ef 'node #{args.replace /\*/g, '\\*'}'"
+  code, out <- exec cmd = "pkill -ef 'node #{cmd.replace /\*/g, '\\*'}'"
   # 0 One or more processes matched the criteria.
   # 1 No processes matched.
   # 2 Syntax error in the command line.
@@ -30,10 +29,10 @@ function start-site cb
   const RX-ERR = /(expected|error|exception)/i
   v = exec 'node --version', silent:true .output.replace '\n', ''
   cwd = Const.dir.build.SITE
-  args = get-start-site-args!
-  log "start site in node #v: #args"
+  cmd = get-start-site-cmd!
+  log "start site in node #v: #cmd"
   return log "unable to start non-existent site at #cwd" unless test \-e, cwd
-  Cp.spawn \node, (args.split ' '), cwd:cwd, env:env
+  Cp.spawn \node, (cmd.split ' '), cwd:cwd, env:env
     ..stderr.on \data, ->
       log-data s = it.toString!
       # data may be fragmented, so only growl relevant packet
@@ -46,7 +45,7 @@ function start-site cb
     log Chalk.gray "#{Chalk.underline Const.APPNAME} #{it.slice 0, -1}"
 
 function stop-site cb
-  args = get-start-site-args!
-  log "stop site: #args"
-  <- kill-node args
+  cmd = get-start-site-cmd!
+  log "stop site: #cmd"
+  <- kill-node cmd
   cb!
