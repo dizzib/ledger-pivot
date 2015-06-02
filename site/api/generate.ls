@@ -1,11 +1,12 @@
-Bp = require \babyparse
-Fs = require \fs
-_  = require \lodash
+Bp  = require \babyparse
+Fs  = require \fs
+_   = require \lodash
+Src = require \./source
 
 module.exports = (req, res, next) ->
-  err, buf <- Fs.readFile \/mnt/project/LIFE.FINANCE/ledger/master.csv
+  err, csv <- Src.read
   return log err if err
-  parsed = Bp.parse buf.toString!, skipEmptyLines:true
+  parsed = Bp.parse csv, skipEmptyLines:true
   txs = _.map parsed.data, ->
     [ date, code, payee, account, commodity, amount, status, notes ] = it
     tx =
