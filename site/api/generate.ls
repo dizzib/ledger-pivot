@@ -20,11 +20,6 @@ module.exports = (req, res) ->
       Amount   : amount
       Status   : status
       Notes    : notes
-    for i from 0 to 3 then tx[get-level-name i] = (account / \:)[i] or ''
+    for i from 0 to 3 then tx["Account-Level-#i"] = (account / \:)[i] or ''
     tx
   res.send options:Cfg.options, transactions:txs
-
-function get-level-name n
-  "Account-Level-#n"
-  #function segment then if it is n then " Level #n " else '  '
-  #  "#{segment 0}:#{segment 1}:#{segment 2}:#{segment 3}"
