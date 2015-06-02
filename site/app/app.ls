@@ -3,11 +3,12 @@
 window.log = -> console.log ...&
 
 <- $
-$.ajax \/api/transactions do
-  error  : -> log ...
-  success: render
+$.ajax \/api/transactions error:render-error, success:render-pivot
 
-function render
+function render-error
+  $ \#output .text 'An error occurred on the server.'
+
+function render-pivot
   is-init    = true
   dateFormat = $.pivotUtilities.derivers.dateFormat
   sortAs     = $.pivotUtilities.sortAs

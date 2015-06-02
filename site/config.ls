@@ -14,6 +14,7 @@ module.exports = me =
     log "load config from #PATH"
     cache := Yaml.safeLoad Fs.readFileSync PATH
     me <<< cache
+  path: PATH
   save: (key, value, cb) ->
     cache[key] = value
     yaml = Yaml.safeDump cache
