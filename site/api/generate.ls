@@ -11,9 +11,7 @@ module.exports = (req, res) ->
   txs = _.map parsed.data, ->
     [ date, code, payee, account, commodity, amount, status, notes ] = it
     tx =
-      Year     : (dt = new Date date).getFullYear!
-      Month    : <[Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec]>[dt.getMonth!]
-      Day      : dt.getDate!
+      Date     : date
       Code     : code
       Payee    : payee
       Commodity: commodity

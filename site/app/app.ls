@@ -4,12 +4,23 @@ window.log = -> console.log ...&
 
 <- $
 $.ajax \/api/transactions do
-  success: ->
-    is-init = true
-    $ \#output .pivotUI it.transactions, it.options <<< do
-      onRefresh: ->
-        return is-init := false if is-init
-        $.ajax \/api/persist do
-          data : _.pick it, <[ aggregatorName cols exclusions rendererName rows vals ]>
-          error: -> log ...
-  error: -> log ...
+  error  : -> log ...
+  success: render
+
+function render
+  is-init    = true
+  dateFormat = $.pivotUtilities.derivers.dateFormat
+  sortAs     = $.pivotUtilities.sortAs
+
+  $ \#output .pivotUI it.transactions, it.options <<< do
+    derivedAttributes:
+      Year : dateFormat \Date '%y'
+      Month: dateFormat \Date '%n'
+      Day  : dateFormat \Date '%d'
+    sorters: ->
+      sortAs <[ Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec ]> if it is \Month
+    onRefresh: ->
+      return is-init := false if is-init
+      $.ajax \/api/persist do
+        data : _.pick it, <[ aggregatorName cols exclusions rendererName rows vals ]>
+        error: -> log ...
