@@ -2,7 +2,7 @@ Bp  = require \babyparse
 Fs  = require \fs
 _   = require \lodash
 Src = require \./source
-Cfg = require \../config
+Cfg = require \../config/api
 
 module.exports = (req, res) ->
   err, csv <- Src.read

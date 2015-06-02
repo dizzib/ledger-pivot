@@ -12,6 +12,7 @@ W4fib   = require \wait.for .launchFiber
 Args    = require \./args
 ApiGen  = require \./api/generate
 ApiPer  = require \./api/persist
+CfgBoot = require \./config/boot
 
 express = Express!
   ..set \port, Args.port

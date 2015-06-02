@@ -1,0 +1,3 @@
+source:
+  path: /mnt/project/LIFE.FINANCE/ledger/master.csv
+  #command: cat /mnt/project/LIFE.FINANCE/ledger/master.csv

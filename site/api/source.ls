@@ -1,6 +1,6 @@
 Cp  = require \child_process
 Fs  = require \fs
-Cfg = require \../config
+Cfg = require \../config/api
 
 module.exports =
   read: (cb) ->
@@ -15,4 +15,4 @@ module.exports =
       return cb err if err
       cb null, stdout.toString!
     else
-      cb new Error "Config file #{Cfg.path} must contain either a source path or command."
+      cb new Error "Config file #{Cfg.file.path} must contain either a source path or command."

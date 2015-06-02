@@ -3,18 +3,21 @@ Path = require \path
 _    = require \lodash
 Yaml = require \js-yaml
 Sh   = require \shelljs/global
-Args = require \./args
+Args = require \../args
 
-const PATH = Args.config-path .replace \~, process.env.HOME
+const NAME = \app.yaml
+const PATH = Path.join Args.config-path, NAME
 cache = {}
 
 module.exports = me =
+  file:
+    name: NAME
+    path: PATH
   load: ->
     return log "MISSING #PATH" unless test \-e PATH
     log "load config from #PATH"
     cache := Yaml.safeLoad Fs.readFileSync PATH
     me <<< cache
-  path: PATH
   save: (key, value, cb) ->
     cache[key] = value
     yaml = Yaml.safeDump cache
@@ -22,5 +25,3 @@ module.exports = me =
     cb err if err
     me <<< cache
     cb!
-
-me.load!

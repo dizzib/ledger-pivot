@@ -1,5 +1,5 @@
 Hst = require \http-status
-Cfg = require \../config
+Cfg = require \../config/app
 
 module.exports = (req, res) ->
   err <- Cfg.save \options req.query
