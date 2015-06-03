@@ -15,6 +15,7 @@ engines:
   npm : '>=1.0.x'
 dependencies:
   babyparse    : \0.4.3
+  chokidar     : \1.0.1
   commander    : \2.6.0
   errorhandler : \1.3.2
   express      : \4.11.1
@@ -32,6 +33,5 @@ dependencies:
   x11          : \1.0.3
 devDependencies:
   chalk        : \~0.4.0
-  chokidar     : \~1.0.1
   cron         : \~1.0.3
   gntp         : \~0.1.1

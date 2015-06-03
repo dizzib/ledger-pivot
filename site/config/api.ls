@@ -1,3 +1,4 @@
+Chok = require \chokidar
 Fs   = require \fs
 Path = require \path
 _    = require \lodash
@@ -7,7 +8,9 @@ Args = require \../args
 
 const NAME = \api.yaml
 const PATH = Path.join Args.config-path, NAME
-cache = {}
+
+var cache
+var watcher
 
 module.exports = me =
   file:
@@ -18,3 +21,6 @@ module.exports = me =
     log "load config from #PATH"
     cache := Yaml.safeLoad Fs.readFileSync PATH
     me <<< cache
+    return if watcher?
+    watcher := Chok.watch PATH
+    watcher.on \change me.load
