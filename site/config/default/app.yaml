@@ -1,4 +1,13 @@
 options:
   aggregatorName: Sum
+  cols:
+      - Commodity
+      - Year
+      - Month
+    rendererName: Table
+    rows:
+      - Account-Level-0
+      - Account-Level-1
+      - Account-Level-2
   vals:
     - Amount
