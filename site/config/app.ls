@@ -15,7 +15,7 @@ module.exports = me =
     path: PATH
   load: ->
     return log "MISSING #PATH" unless test \-e PATH
-    log "load config from #PATH"
+    log "load app config from #PATH"
     cache := Yaml.safeLoad Fs.readFileSync PATH
     me <<< cache
   save: (key, value, cb) ->
