@@ -9,12 +9,14 @@ html
   head
     title ledger-pivot
     +css('/lib-3p/pivot.css')
-    //+css('app.css')
+    +css('/app.css')
     +script('/lib-3p/lodash.js')
     +script('/lib-3p/jquery.js')
     +script('/lib-3p/jquery-ui-1.11.4/jquery-ui.js')
     +script('/lib-3p/pivot.js')
     +script('/app.js')
   body
-    h1 ledger-pivot
+    #menu
+      each pid in pids
+        a(href='/#{pid}')= pid
     #output

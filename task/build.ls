@@ -18,11 +18,11 @@ const NMODULES = './node_modules'
 
 pruner = new Cron.CronJob cronTime:'*/10 * * * *', onTick:prune-empty-dirs
 tasks  =
-  jade:
-    cmd : "node #NMODULES/jade/bin/jade.js --out $OUT $IN"
-    ixt : \jade
-    oxt : \html
-    mixn: \_
+  #jade:
+  #  cmd : "node #NMODULES/jade/bin/jade.js --out $OUT $IN"
+  #  ixt : \jade
+  #  oxt : \html
+  #  mixn: \_
   livescript:
     cmd   : "#NMODULES/LiveScript/bin/lsc --output $OUT $IN"
     ixt   : \ls
@@ -34,7 +34,7 @@ tasks  =
     oxt : \html
   static:
     cmd : 'cp --target-directory $OUT $IN'
-    pat : '{ledger-pivot,*.{css,csv,js,png,yaml}}'
+    pat : '{ledger-pivot,*.{css,csv,jade,js,png,yaml}}'
   stylus:
     cmd : "#NMODULES/stylus/bin/stylus -u nib --out $OUT $IN"
     ixt : \styl

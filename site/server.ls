@@ -4,6 +4,7 @@ ErrHan  = require \errorhandler
 Express = require \express
 Fs      = require \fs
 Http    = require \http
+Jade    = require \jade
 Morgan  = require \morgan
 Path    = require \path
 Shell   = require \shelljs/global
@@ -12,6 +13,7 @@ W4fib   = require \wait.for .launchFiber
 Args    = require \./args
 ApiGen  = require \./api/generate
 ApiPer  = require \./api/persist
+CfgApi  = require \./config/api
 CfgBoot = require \./config/boot
 
 const APPDIR = "#__dirname/app"
@@ -22,7 +24,8 @@ express = Express!
   ..get '/api/:pid/transactions', ApiGen
   ..get '/api/:pid/persist', ApiPer
   ..use Express.static APPDIR
-  ..use /\/[-\w]+$/, Express.static "#APPDIR/index.html"
+  ..use '/:pid', (req, res) ->
+    res.send Jade.renderFile "#APPDIR/app.jade", pids:CfgApi.get-pids!
   ..use ErrHan log: -> log it.stack
 
 W4fib ->

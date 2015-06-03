@@ -24,3 +24,4 @@ module.exports = me =
     return if watcher?
     watcher := Chok.watch PATH
     watcher.on \change me.load
+  get-pids: -> _.keys cache

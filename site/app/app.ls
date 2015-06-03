@@ -15,8 +15,6 @@ function render
   is-init    = true
   dateFormat = $.pivotUtilities.derivers.dateFormat
   sortAs     = $.pivotUtilities.sortAs
-
-  log it
   $ \#output .pivotUI it.transactions, (it.options or {}) <<< do
     derivedAttributes:
       Year : dateFormat \Date '%y'
