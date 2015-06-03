@@ -34,7 +34,7 @@ tasks  =
     oxt : \html
   static:
     cmd : 'cp --target-directory $OUT $IN'
-    pat : '{ledger-pivot,*.{css,js,png,yaml}}'
+    pat : '{ledger-pivot,*.{css,csv,js,png,yaml}}'
   stylus:
     cmd : "#NMODULES/stylus/bin/stylus -u nib --out $OUT $IN"
     ixt : \styl

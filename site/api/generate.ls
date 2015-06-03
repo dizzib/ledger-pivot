@@ -4,9 +4,9 @@ _   = require \lodash
 Src = require \./source
 Cfg = require \../config/app
 
-module.exports = (req, res) ->
+module.exports = (req, res, next) ->
   err, csv <- Src.read
-  return log err if err
+  return next err if err
   parsed = Bp.parse csv, skipEmptyLines:true
   txs = _.map parsed.data, ->
     [ date, code, payee, account, commodity, amount, status, notes ] = it

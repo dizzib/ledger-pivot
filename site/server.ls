@@ -20,7 +20,7 @@ express = Express!
   ..get '/api/transactions', ApiGen
   ..get '/api/persist', ApiPer
   ..use Express.static "#__dirname/app"
-  ..use ErrHan!
+  ..use ErrHan log: -> log it
 
 W4fib ->
   http = Http.createServer express

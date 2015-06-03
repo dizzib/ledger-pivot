@@ -3,10 +3,10 @@
 window.log = -> console.log ...&
 
 <- $
-$.ajax \/api/transactions error:render-error, success:render-pivot
+$.ajax \/api/transactions error:render-error, success:render-pivot, timeout:5000ms
 
-function render-error
-  $ \#output .text 'An error occurred on the server.'
+function render-error xhr, status, msg
+  $ \#output .text "An error occurred when calling the server: #msg"
 
 function render-pivot
   is-init    = true

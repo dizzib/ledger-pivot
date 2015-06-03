@@ -18,5 +18,5 @@ App.load!
 function ensure-default-config
   unless test \-e dest = it.file.path
     log "copy default config to #dest"
-    log src = Path.join __dirname, \default, it.file.name
+    src = Path.join __dirname, \default, it.file.name
     cp src, dest

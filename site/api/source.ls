@@ -1,10 +1,12 @@
-Cp  = require \child_process
-Fs  = require \fs
-Cfg = require \../config/api
+Cp   = require \child_process
+Fs   = require \fs
+Path = require \path
+Cfg  = require \../config/api
 
 module.exports =
   read: (cb) ->
     if path = Cfg.source?path
+      path .= replace \$EXAMPLE Path.join __dirname, \../example
       log "read csv from file: #path"
       err, buf <- Fs.readFile path
       return cb err if err
