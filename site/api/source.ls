@@ -4,14 +4,15 @@ Path = require \path
 Cfg  = require \../config/api
 
 module.exports =
-  read: (cb) ->
-    if path = Cfg.source?path
+  read: (pid, cb) ->
+    return cb new Error "pid #pid is not configured" unless cfg = Cfg[pid]
+    if path = cfg.source?path
       path .= replace \$EXAMPLE Path.join __dirname, \../example
       log "read csv from file: #path"
       err, buf <- Fs.readFile path
       return cb err if err
       cb null, buf.toString!
-    else if cmd = Cfg.source?command
+    else if cmd = cfg.source?command
       log "generate csv by command: #cmd"
       err, stdout, stderr <- Cp.exec cmd
       return cb err if err

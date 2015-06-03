@@ -1,13 +1,14 @@
 # app default configuration, not to be edited.
 #
-options:
-  aggregatorName: Sum
-  cols:
-    - Year
-    - Month
-  rendererName: Table
-  rows:
-    - Account-Level-0
-    - Account-Level-1
-  vals:
-    - Amount
+example:
+  options:
+    aggregatorName: Sum
+    cols:
+      - Year
+      - Month
+    rendererName: Table
+    rows:
+      - Account-Level-0
+      - Account-Level-1
+    vals:
+      - Amount

@@ -14,13 +14,16 @@ ApiGen  = require \./api/generate
 ApiPer  = require \./api/persist
 CfgBoot = require \./config/boot
 
+const APPDIR = "#__dirname/app"
+
 express = Express!
   ..set \port, Args.port
   ..use Morgan \dev
-  ..get '/api/transactions', ApiGen
-  ..get '/api/persist', ApiPer
-  ..use Express.static "#__dirname/app"
-  ..use ErrHan log: -> log it
+  ..get '/api/:pid/transactions', ApiGen
+  ..get '/api/:pid/persist', ApiPer
+  ..use Express.static APPDIR
+  ..use /\/[-\w]+$/, Express.static "#APPDIR/index.html"
+  ..use ErrHan log: -> log it.stack
 
 W4fib ->
   http = Http.createServer express
