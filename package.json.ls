@@ -27,7 +27,7 @@ dependencies:
   morgan       : \1.5.1
   shelljs      : \0.3.0
   stylus       : \0.49.3
-  'wait.for'   : \0.6.3
+  'wait.for'   : \0.6.6
 devDependencies:
   chalk        : \~0.4.0
   cron         : \~1.0.3
