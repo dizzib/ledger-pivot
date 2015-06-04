@@ -22,7 +22,7 @@ you've changed your [$XDG_CONFIG_HOME] variable.
 This location can be overridden with the `-c` flag on the command line.
 
 The [settings.yaml] should be edited as required, specifying the source
-of transaction csv data and (optionally) the pivot table starting configuration.
+of transaction csv data and (optionally) the pivot table initial configuration.
 
 ## options
 
