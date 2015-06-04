@@ -10,7 +10,7 @@
 #     options: controls how the pivot table will display initially,
 #              overridden by state.pid.yaml file
 #
-example:
+example-wow:
   source:
     path: $EXAMPLE/wow.csv
   pivot:
@@ -28,6 +28,6 @@ example:
 
 report-1: # change to your preferred id
   source:
-    command: ledger csv # you might need to specify a file by option -f
+    command: ledger -f path-to-ledger-file csv
 
 # add more definitions as required
