@@ -29,6 +29,7 @@ express = Express!
   ..use Express.static APPDIR
   ..use '/:pid', (req, res) ->
     res.send Jade.renderFile "#APPDIR/app.jade", pids:CfgSet.get-pids!
+  ..use '/', (req, res) -> res.redirect Path.join '/' CfgSet.get-pids!0
   ..use ErrHan log: -> log it.stack
 
 W4fib ->
