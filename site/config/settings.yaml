@@ -10,10 +10,10 @@
 #     options: controls how the pivot table will display initially,
 #              overridden by state.pid.yaml file
 #
-example-wow:
+drewr3:
   source:
-    path: $EXAMPLE/wow.csv
-  pivot:
+    path: $EXAMPLE/drewr3.csv
+  pivot: &1 # the &1 allows other reports to use these settings using *1
     options:
       aggregatorName: Sum
       cols:
@@ -26,8 +26,19 @@ example-wow:
       vals:
         - Amount
 
-report-1: # change to your preferred id
+sample:
   source:
-    command: ledger -f path-to-ledger-file csv
+    path: $EXAMPLE/sample.csv
+  pivot: *1
+
+wow:
+  source:
+    path: $EXAMPLE/wow.csv
+  pivot: *1
+
+generated-by-command:
+  source:
+    command: ledger -f path-to-ledger-file csv # edit path as required
+  pivot: *1
 
 # add more definitions as required
