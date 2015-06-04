@@ -1,5 +1,5 @@
 name       : \ledger-pivot
-version    : \0.0.1
+version    : \0.1.0
 description: "Dynamically analyse your ledger transactions in a JavaScript pivot table"
 keywords   : <[ ledger pivot table ]>
 homepage   : \https://github.com/dizzib/ledger-pivot
