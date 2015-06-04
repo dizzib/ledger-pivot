@@ -2,7 +2,6 @@ Bp  = require \babyparse
 Fs  = require \fs
 _   = require \lodash
 Src = require \./source
-Cfg = require \../config/app
 
 module.exports = (pid, cb) ->
   err, csv <- Src.read pid
