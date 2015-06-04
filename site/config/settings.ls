@@ -6,7 +6,7 @@ Yaml = require \js-yaml
 Sh   = require \shelljs/global
 Args = require \../args
 
-const NAME = \api.yaml
+const NAME = \settings.yaml
 const PATH = Path.join Args.config-path, NAME
 
 var cache
@@ -16,12 +16,15 @@ module.exports = me =
   file:
     name: NAME
     path: PATH
+  get: (pid) ->
+    throw new Error "Missing settings for #pid" unless _.has cache, pid
+    cache[pid]
+  get-pids: ->
+    _.keys cache
   load: ->
     return log "MISSING #PATH" unless test \-e PATH
-    log "load api config from #PATH"
+    log "load settings from #PATH"
     cache := Yaml.safeLoad Fs.readFileSync PATH
-    me <<< cache
     return if watcher?
     watcher := Chok.watch PATH
     watcher.on \change me.load
-  get-pids: -> _.keys cache

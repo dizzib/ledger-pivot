@@ -4,11 +4,11 @@ _   = require \lodash
 Src = require \./source
 Cfg = require \../config/app
 
-module.exports = (req, res, next) ->
-  err, csv <- Src.read pid = req.params.pid
-  return next err if err
+module.exports = (pid, cb) ->
+  err, csv <- Src.read pid
+  return cb err if err
   parsed = Bp.parse csv, skipEmptyLines:true
-  txs = _.map parsed.data, ->
+  cb null, _.map parsed.data, ->
     [ date, code, payee, account, commodity, amount, status, notes ] = it
     tx =
       Date     : date
@@ -20,4 +20,3 @@ module.exports = (req, res, next) ->
       Notes    : notes
     for i from 0 to 3 then tx["Account-Level-#i"] = (account / \:)[i] or ''
     tx
-  res.send options:Cfg[pid]?options, transactions:txs

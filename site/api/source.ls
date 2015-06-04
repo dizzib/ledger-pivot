@@ -1,21 +1,23 @@
-Cp   = require \child_process
-Fs   = require \fs
-Path = require \path
-Cfg  = require \../config/api
+Cp    = require \child_process
+Fs    = require \fs
+Path  = require \path
+Setts = require \../config/settings
 
 module.exports =
   read: (pid, cb) ->
-    return cb new Error "pid #pid is not configured" unless cfg = Cfg[pid]
-    if path = cfg.source?path
+    try settings = Setts.get pid
+    catch then return cb it
+
+    if path = settings.source?path
       path .= replace \$EXAMPLE Path.join __dirname, \../example
       log "read csv from file: #path"
       err, buf <- Fs.readFile path
       return cb err if err
       cb null, buf.toString!
-    else if cmd = cfg.source?command
+    else if cmd = settings.source?command
       log "generate csv by command: #cmd"
       err, stdout, stderr <- Cp.exec cmd
       return cb err if err
       cb null, stdout.toString!
     else
-      cb new Error "Config file #{Cfg.file.path} must contain either a source path or command."
+      cb new Error "#{Setts.file.path} must specify a source path or command for #pid"

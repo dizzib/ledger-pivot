@@ -12,3 +12,15 @@ example:
   source:
     #command: ledger -f ledger-filepath csv
     path: $EXAMPLE/wow.csv
+  pivot:
+    options:
+      aggregatorName: Sum
+      cols:
+        - Year
+        - Month
+      rendererName: Table
+      rows:
+        - Account-Level-0
+        - Account-Level-1
+      vals:
+        - Amount
