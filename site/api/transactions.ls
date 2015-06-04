@@ -7,6 +7,7 @@ module.exports = (pid, cb) ->
   err, csv <- Src.read pid
   return cb err if err
   parsed = Bp.parse csv, skipEmptyLines:true
+  return cb parsed.errors if parsed.errors.length
   cb null, _.map parsed.data, ->
     [ date, code, payee, account, commodity, amount, status, notes ] = it
     tx =
