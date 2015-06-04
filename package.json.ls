@@ -26,7 +26,6 @@ dependencies:
   lodash       : \3.5.0
   marked       : \0.3.1
   morgan       : \1.5.1
-  nib          : \1.1.0
   shelljs      : \0.3.0
   stylus       : \0.49.3
   'wait.for'   : \0.6.3

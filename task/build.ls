@@ -36,7 +36,7 @@ tasks  =
     cmd : 'cp --target-directory $OUT $IN'
     pat : '{ledger-pivot,*.{css,csv,jade,js,png,yaml}}'
   stylus:
-    cmd : "#NMODULES/stylus/bin/stylus -u nib --out $OUT $IN"
+    cmd : "#NMODULES/stylus/bin/stylus --out $OUT $IN"
     ixt : \styl
     oxt : \css
     mixn: \_
