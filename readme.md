@@ -12,8 +12,7 @@ With [node.js] installed:
     $ npm install -g ledger-pivot  # might need to prefix with sudo
     $ ledger-pivot
 
-then navigate your web-browser to `http://your-server:7070` to analyse
-the [examples].
+then navigate your web-browser to `http://your-server:7070` to view the [examples].
 
 ## configure
 
@@ -22,7 +21,7 @@ you've changed your [$XDG_CONFIG_HOME] variable.
 This location can be overridden with the `-c` flag on the command line.
 
 The [settings.yaml] should be edited as required, specifying the source
-of transaction csv data and (optionally) the pivot table initial configuration.
+of transaction csv data and (optionally) the pivot table's initial configuration.
 
 ## options
 
