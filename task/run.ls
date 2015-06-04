@@ -32,7 +32,7 @@ function start-site cb
   cmd = get-start-site-cmd!
   log "start site in node #v: #cmd"
   return log "unable to start non-existent site at #cwd" unless test \-e, cwd
-  Cp.spawn \node, (cmd.split ' '), cwd:cwd, env:env
+  Cp.spawn \node, (cmd.split ' '), cwd:cwd, env:env <<< NODE_ENV:\development
     ..stderr.on \data, ->
       log-data s = it.toString!
       # data may be fragmented, so only growl relevant packet

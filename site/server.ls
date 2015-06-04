@@ -17,10 +17,11 @@ CfgBoot = require \./config/boot
 CfgSet  = require \./config/settings
 
 const APPDIR = "#__dirname/app"
+env = process.env.NODE_ENV
 
 express = Express!
   ..set \port, Args.port
-  ..use Morgan \dev
+  ..use Morgan \dev if env in <[ development ]>
   ..use '/api/:pid/persist', ApiCfg.persist
   ..use '/api/:pid', (req, res, next) ->
     err, txs <- ApiTxs pid = req.params.pid
