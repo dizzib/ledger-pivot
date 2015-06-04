@@ -13,7 +13,7 @@ With [node.js] installed:
     $ ledger-pivot
 
 then navigate your web-browser to `http://your-server:7070` to analyse
-the example [wow.csv].
+the [examples].
 
 ## configure
 
@@ -54,4 +54,4 @@ MIT
 [node.js]: http://nodejs.org
 [pivot table]: http://nicolas.kruchten.com/pivottable
 [settings.yaml]: ./site/config/settings.yaml
-[wow.csv]: ./site/example/wow.csv
+[examples]: ./site/example
