@@ -1,7 +1,7 @@
 name       : \ledger-pivot
 version    : \0.1.0
-description: "Dynamically analyse your ledger transactions in a JavaScript pivot table"
-keywords   : <[ ledger pivot table ]>
+description: "View ledger transactions in a pivot-table in a web browser."
+keywords   : <[ grid ledger pivot report table ]>
 homepage   : \https://github.com/dizzib/ledger-pivot
 bugs       : \https://github.com/dizzib/ledger-pivot/issues
 license:   : \MIT
@@ -24,13 +24,12 @@ dependencies:
   'js-yaml'    : \3.2.5
   LiveScript   : \1.3.0
   lodash       : \3.5.0
-  marked       : \0.3.1
   morgan       : \1.5.1
   shelljs      : \0.3.0
   stylus       : \0.49.3
   'wait.for'   : \0.6.3
-  x11          : \1.0.3
 devDependencies:
   chalk        : \~0.4.0
   cron         : \~1.0.3
   gntp         : \~0.1.1
+  marked       : \0.3.1

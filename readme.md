@@ -1,6 +1,6 @@
 ## ledger-pivot
 
-Analyse your [ledger] transactions in a web-browser [pivot table]:
+View [ledger] transactions in a [pivot-table] in a web browser:
 
 - define multiple reports
 - pivot table layouts are automatically persisted to disk
@@ -52,6 +52,6 @@ MIT
 [$XDG_CONFIG_HOME]: http://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html
 [ledger]: http://www.ledger-cli.org
 [node.js]: http://nodejs.org
-[pivot table]: http://nicolas.kruchten.com/pivottable
+[pivot-table]: http://nicolas.kruchten.com/pivottable
 [settings.yaml]: ./site/config/settings.yaml
 [examples]: ./site/example
