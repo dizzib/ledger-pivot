@@ -46,7 +46,7 @@ of transaction csv data and (optionally) the pivot table's initial configuration
 
 ## license
 
-MIT
+[MIT](./LICENSE)
 
 [$XDG_CONFIG_HOME]: http://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html
 [ledger]: http://www.ledger-cli.org
