@@ -1,6 +1,7 @@
 Bp  = require \babyparse
 Fs  = require \fs
 _   = require \lodash
+M   = require \moment
 Src = require \./source
 
 module.exports = (pid, cb) ->
@@ -11,6 +12,7 @@ module.exports = (pid, cb) ->
   cb null, _.map parsed.data, ->
     [ date, code, payee, account, commodity, amount, status, notes ] = it
     tx =
+      AgeYears : M!subtract(1 \month).endOf(\month).diff new Date(date), \years
       Date     : date
       Code     : code
       Payee    : payee

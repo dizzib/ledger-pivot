@@ -24,6 +24,7 @@ dependencies:
   'js-yaml'    : \3.2.5
   LiveScript   : \1.3.0
   lodash       : \3.5.0
+  moment       : \2.14.1
   morgan       : \1.5.1
   shelljs      : \0.3.0
   stylus       : \0.49.3
