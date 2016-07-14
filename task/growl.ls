@@ -1,39 +1,38 @@
 Chalk = require \chalk
-Gntp  = require \gntp
+G     = require \growly
 Util  = require \util
 Const = require \./constants
 
-const INFO    = create-note \info   , Chalk.stripColor
-const ERROR   = create-note \error  , Chalk.red
-const SUCCESS = create-note \success, Chalk.green
+const CHALKS = error:Chalk.red, info:Chalk.stripColor, success:Chalk.green
+enabled = (growl-at = process.env.growl-at)?
+
+function register cb
+  log "growl.register #{Const.APPNAME} to growl at #growl-at"
+  err <- G.register Const.APPNAME, [{label:\error} {label:\info} {label:\success}]
+  log err if err
+  cb err
+
+function send label, item, opts = {}
+  text = Chalk.stripColor if item instanceof Error then item.message else item
+  Util.log CHALKS[label] text unless opts.nolog
+  return unless enabled
+  title = "#{Const.APPNAME} #label".toUpperCase!
+  # for some reason a '::' causes the growl to fail !?
+  t = text.replace /::/g \:
+  o = (label:label, title:title) <<< opts
+  err <- G.notify t, o
+  if err then log err else return
+  err <- register # send failed -- attempt to re-register then re-send
+  return if err
+  err <- G.notify t, o
+  log err if err
 
 module.exports =
-  alert: (e, opts)    -> send ERROR, e, (sticky:true) <<< opts
-  err  : (e, opts)    -> send ERROR, e, opts
-  ok   : (text, opts) -> send SUCCESS, text, opts
-  say  : (text, opts) -> send INFO, text, opts
+  alert: (err, opts)  -> send \error err, (sticky:true) <<< opts
+  err  : (err, opts)  -> send \error err, opts
+  ok   : (text, opts) -> send \success text, opts
+  say  : (text, opts) -> send \info text, opts
 
-if enabled = (growl-at = process.env.growl-at)?
-  log "growl at #growl-at"
-  client = new Gntp.Client! <<< host:growl-at
-  client.on \response, -> register! if it.type is '-ERROR'
-  client.on \error, -> log "growl.error: [#{it.parseInfo.error.code}] #{it.parseInfo.error.text}"
-  register!
-else log "growl disabled"
-
-## helpers
-
-function create-note name, chalk
-  new Gntp.Notification! <<< name:name, displayName:"#{Const.APPNAME} #name", chalk:chalk
-
-function register
-  req = (new Gntp.Application Const.APPNAME).toRequest!
-  for note in [INFO, ERROR, SUCCESS] then req.addNotification note
-  client.sendMessage req.toRequest!
-
-function send note, text, opts = {}
-  if text instanceof Error then text .= message
-  Util.log note.chalk text unless opts.nolog
-  return unless enabled
-  req = note.toRequest! <<< (applicationName:Const.APPNAME, text:text) <<< opts
-  client.sendMessage req.toRequest!
+return log "growl disabled" unless enabled
+G.setHost growl-at
+register ->
