@@ -351,20 +351,20 @@
       };
     })(aggregatorTemplates);
     renderers = {
-      "Table": function(pvtData, opts) {
-        return pivotTableRenderer(pvtData, opts);
+      "Table": function(data, opts) {
+        return pivotTableRenderer(data, opts);
       },
-      "Table Barchart": function(pvtData, opts) {
-        return $(pivotTableRenderer(pvtData, opts)).barchart();
+      "Table Barchart": function(data, opts) {
+        return $(pivotTableRenderer(data, opts)).barchart();
       },
-      "Heatmap": function(pvtData, opts) {
-        return $(pivotTableRenderer(pvtData, opts)).heatmap();
+      "Heatmap": function(data, opts) {
+        return $(pivotTableRenderer(data, opts)).heatmap("heatmap", opts);
       },
-      "Row Heatmap": function(pvtData, opts) {
-        return $(pivotTableRenderer(pvtData, opts)).heatmap("rowheatmap");
+      "Row Heatmap": function(data, opts) {
+        return $(pivotTableRenderer(data, opts)).heatmap("rowheatmap", opts);
       },
-      "Col Heatmap": function(pvtData, opts) {
-        return $(pivotTableRenderer(pvtData, opts)).heatmap("colheatmap");
+      "Col Heatmap": function(data, opts) {
+        return $(pivotTableRenderer(data, opts)).heatmap("colheatmap", opts);
       }
     };
     locales = {
@@ -508,16 +508,6 @@
         return naturalSort;
       }
     };
-    $.pivotUtilities = {
-      aggregatorTemplates: aggregatorTemplates,
-      aggregators: aggregators,
-      renderers: renderers,
-      derivers: derivers,
-      locales: locales,
-      naturalSort: naturalSort,
-      numberFormat: numberFormat,
-      sortAs: sortAs
-    };
 
     /*
     Data Model class
@@ -602,7 +592,7 @@
           return $("tbody > tr", input).each(function(i) {
             record = {};
             $("td", this).each(function(j) {
-              return record[tblCols[j]] = $(this).html();
+              return record[tblCols[j]] = $(this).text();
             });
             return addRecord(record);
           });
@@ -634,6 +624,7 @@
         return function(a, b) {
           var comparison, i, sorter;
           for (i in sortersArr) {
+            if (!hasProp.call(sortersArr, i)) continue;
             sorter = sortersArr[i];
             comparison = sorter(a[i], b[i]);
             if (comparison !== 0) {
@@ -730,12 +721,23 @@
       return PivotData;
 
     })();
+    $.pivotUtilities = {
+      aggregatorTemplates: aggregatorTemplates,
+      aggregators: aggregators,
+      renderers: renderers,
+      derivers: derivers,
+      locales: locales,
+      naturalSort: naturalSort,
+      numberFormat: numberFormat,
+      sortAs: sortAs,
+      PivotData: PivotData
+    };
 
     /*
     Default Renderer for hierarchical table layout
      */
     pivotTableRenderer = function(pivotData, opts) {
-      var aggregator, c, colAttrs, colKey, colKeys, defaults, i, j, r, result, rowAttrs, rowKey, rowKeys, spanSize, td, th, totalAggregator, tr, txt, val, x;
+      var aggregator, c, colAttrs, colKey, colKeys, defaults, i, j, r, result, rowAttrs, rowKey, rowKeys, spanSize, tbody, td, th, thead, totalAggregator, tr, txt, val, x;
       defaults = {
         localeStrings: {
           totals: "Totals"
@@ -776,6 +778,7 @@
         }
         return len;
       };
+      thead = document.createElement("thead");
       for (j in colAttrs) {
         if (!hasProp.call(colAttrs, j)) continue;
         c = colAttrs[j];
@@ -788,7 +791,7 @@
         }
         th = document.createElement("th");
         th.className = "pvtAxisLabel";
-        th.innerHTML = c;
+        th.textContent = c;
         tr.appendChild(th);
         for (i in colKeys) {
           if (!hasProp.call(colKeys, i)) continue;
@@ -797,7 +800,7 @@
           if (x !== -1) {
             th = document.createElement("th");
             th.className = "pvtColLabel";
-            th.innerHTML = colKey[j];
+            th.textContent = colKey[j];
             th.setAttribute("colspan", x);
             if (parseInt(j) === colAttrs.length - 1 && rowAttrs.length !== 0) {
               th.setAttribute("rowspan", 2);
@@ -812,7 +815,7 @@
           th.setAttribute("rowspan", colAttrs.length + (rowAttrs.length === 0 ? 0 : 1));
           tr.appendChild(th);
         }
-        result.appendChild(tr);
+        thead.appendChild(tr);
       }
       if (rowAttrs.length !== 0) {
         tr = document.createElement("tr");
@@ -821,7 +824,7 @@
           r = rowAttrs[i];
           th = document.createElement("th");
           th.className = "pvtAxisLabel";
-          th.innerHTML = r;
+          th.textContent = r;
           tr.appendChild(th);
         }
         th = document.createElement("th");
@@ -830,8 +833,10 @@
           th.innerHTML = opts.localeStrings.totals;
         }
         tr.appendChild(th);
-        result.appendChild(tr);
+        thead.appendChild(tr);
       }
+      result.appendChild(thead);
+      tbody = document.createElement("tbody");
       for (i in rowKeys) {
         if (!hasProp.call(rowKeys, i)) continue;
         rowKey = rowKeys[i];
@@ -843,7 +848,7 @@
           if (x !== -1) {
             th = document.createElement("th");
             th.className = "pvtRowLabel";
-            th.innerHTML = txt;
+            th.textContent = txt;
             th.setAttribute("rowspan", x);
             if (parseInt(j) === rowAttrs.length - 1 && colAttrs.length !== 0) {
               th.setAttribute("colspan", 2);
@@ -858,7 +863,7 @@
           val = aggregator.value();
           td = document.createElement("td");
           td.className = "pvtVal row" + i + " col" + j;
-          td.innerHTML = aggregator.format(val);
+          td.textContent = aggregator.format(val);
           td.setAttribute("data-value", val);
           tr.appendChild(td);
         }
@@ -866,11 +871,11 @@
         val = totalAggregator.value();
         td = document.createElement("td");
         td.className = "pvtTotal rowTotal";
-        td.innerHTML = totalAggregator.format(val);
+        td.textContent = totalAggregator.format(val);
         td.setAttribute("data-value", val);
         td.setAttribute("data-for", "row" + i);
         tr.appendChild(td);
-        result.appendChild(tr);
+        tbody.appendChild(tr);
       }
       tr = document.createElement("tr");
       th = document.createElement("th");
@@ -885,7 +890,7 @@
         val = totalAggregator.value();
         td = document.createElement("td");
         td.className = "pvtTotal colTotal";
-        td.innerHTML = totalAggregator.format(val);
+        td.textContent = totalAggregator.format(val);
         td.setAttribute("data-value", val);
         td.setAttribute("data-for", "col" + j);
         tr.appendChild(td);
@@ -894,10 +899,11 @@
       val = totalAggregator.value();
       td = document.createElement("td");
       td.className = "pvtGrandTotal";
-      td.innerHTML = totalAggregator.format(val);
+      td.textContent = totalAggregator.format(val);
       td.setAttribute("data-value", val);
       tr.appendChild(td);
-      result.appendChild(tr);
+      tbody.appendChild(tr);
+      result.appendChild(tbody);
       result.setAttribute("data-numrows", rowKeys.length);
       result.setAttribute("data-numcols", colKeys.length);
       return result;
@@ -907,11 +913,12 @@
     Pivot Table core: create PivotData object and call Renderer on it
      */
     $.fn.pivot = function(input, opts) {
-      var defaults, e, pivotData, result, x;
+      var defaults, e, error, error1, pivotData, result, x;
       defaults = {
         cols: [],
         rows: [],
         vals: [],
+        dataClass: PivotData,
         filter: function() {
           return true;
         },
@@ -926,18 +933,18 @@
       opts = $.extend(defaults, opts);
       result = null;
       try {
-        pivotData = new PivotData(input, opts);
+        pivotData = new opts.dataClass(input, opts);
         try {
           result = opts.renderer(pivotData, opts.rendererOptions);
-        } catch (_error) {
-          e = _error;
+        } catch (error) {
+          e = error;
           if (typeof console !== "undefined" && console !== null) {
             console.error(e.stack);
           }
           result = $("<span>").html(opts.localeStrings.renderError);
         }
-      } catch (_error) {
-        e = _error;
+      } catch (error1) {
+        e = error1;
         if (typeof console !== "undefined" && console !== null) {
           console.error(e.stack);
         }
@@ -954,11 +961,14 @@
     Pivot Table UI: calls Pivot Table core above with options set by user
      */
     $.fn.pivotUI = function(input, inputOpts, overwrite, locale) {
-      var a, aggregator, attrLength, axisValues, c, colList, defaults, e, existingOpts, fn, i, initialRender, k, l, len1, len2, len3, len4, n, o, opts, pivotTable, q, ref, ref1, ref2, ref3, ref4, refresh, refreshDelayed, renderer, rendererControl, shownAttributes, tblCols, tr1, tr2, uiTable, unusedAttrsVerticalAutoCutoff, unusedAttrsVerticalAutoOverride, x;
+      var a, aggregator, attrLength, axisValues, c, colList, defaults, e, error, existingOpts, fn, i, initialRender, k, l, len1, len2, len3, len4, n, o, opts, pivotTable, q, ref, ref1, ref2, ref3, ref4, refresh, refreshDelayed, renderer, rendererControl, shownAttributes, tblCols, tr1, tr2, uiTable, unusedAttrsVerticalAutoCutoff, unusedAttrsVerticalAutoOverride, x;
       if (overwrite == null) {
         overwrite = false;
       }
       if (locale == null) {
+        locale = "en";
+      }
+      if (locales[locale] == null) {
         locale = "en";
       }
       defaults = {
@@ -970,7 +980,9 @@
         cols: [],
         rows: [],
         vals: [],
+        dataClass: PivotData,
         exclusions: {},
+        inclusions: {},
         unusedAttrsVertical: 85,
         autoSortUnusedAttrs: false,
         rendererOptions: {
@@ -1126,10 +1138,15 @@
               k = ref2[o];
               v = axisValues[c][k];
               filterItem = $("<label>");
-              filterItemExcluded = opts.exclusions[c] ? (indexOf.call(opts.exclusions[c], k) >= 0) : false;
+              filterItemExcluded = false;
+              if (opts.inclusions[c]) {
+                filterItemExcluded = (indexOf.call(opts.inclusions[c], k) < 0);
+              } else if (opts.exclusions[c]) {
+                filterItemExcluded = (indexOf.call(opts.exclusions[c], k) >= 0);
+              }
               hasExcludedItem || (hasExcludedItem = filterItemExcluded);
               $("<input>").attr("type", "checkbox").addClass('pvtFilter').attr("checked", !filterItemExcluded).data("filter", [c, k]).appendTo(filterItem);
-              filterItem.append($("<span>").html(k));
+              filterItem.append($("<span>").text(k));
               filterItem.append($("<span>").text(" (" + v + ")"));
               checkContainer.append($("<p>").append(filterItem));
             }
@@ -1152,9 +1169,11 @@
             type: "button"
           }).text("OK").bind("click", updateFilter));
           showFilterList = function(e) {
+            var clickLeft, clickTop, ref3;
+            ref3 = $(e.currentTarget).position(), clickLeft = ref3.left, clickTop = ref3.top;
             valueList.css({
-              left: e.pageX,
-              top: e.pageY
+              left: clickLeft + 10,
+              top: clickTop + 10
             }).toggle();
             valueList.find('.pvtSearch').val('');
             return valueList.find('.pvtCheckContainer p').show();
@@ -1219,7 +1238,8 @@
               rendererOptions: opts.rendererOptions,
               sorters: opts.sorters,
               cols: [],
-              rows: []
+              rows: [],
+              dataClass: opts.dataClass
             };
             numInputsToProcess = (ref5 = opts.aggregators[aggregator.val()]([])().numInputs) != null ? ref5 : 0;
             vals = [];
@@ -1306,6 +1326,7 @@
               rows: subopts.rows,
               vals: vals,
               exclusions: exclusions,
+              inclusions: inclusions,
               inclusionsInfo: inclusions,
               aggregatorName: aggregator.val(),
               rendererName: renderer.val()
@@ -1340,8 +1361,8 @@
           items: 'li',
           placeholder: 'pvtPlaceholder'
         });
-      } catch (_error) {
-        e = _error;
+      } catch (error) {
+        e = error;
         if (typeof console !== "undefined" && console !== null) {
           console.error(e.stack);
         }
@@ -1353,44 +1374,29 @@
     /*
     Heatmap post-processing
      */
-    $.fn.heatmap = function(scope) {
-      var colorGen, heatmapper, i, j, l, n, numCols, numRows, ref, ref1;
+    $.fn.heatmap = function(scope, opts) {
+      var colorScaleGenerator, heatmapper, i, j, l, n, numCols, numRows, ref, ref1, ref2;
       if (scope == null) {
         scope = "heatmap";
       }
       numRows = this.data("numrows");
       numCols = this.data("numcols");
-      colorGen = function(color, min, max) {
-        var hexGen;
-        hexGen = (function() {
-          switch (color) {
-            case "red":
-              return function(hex) {
-                return "ff" + hex + hex;
-              };
-            case "green":
-              return function(hex) {
-                return hex + "ff" + hex;
-              };
-            case "blue":
-              return function(hex) {
-                return "" + hex + hex + "ff";
-              };
-          }
-        })();
-        return function(x) {
-          var hex, intensity;
-          intensity = 255 - Math.round(255 * (x - min) / (max - min));
-          hex = intensity.toString(16).split(".")[0];
-          if (hex.length === 1) {
-            hex = 0 + hex;
-          }
-          return hexGen(hex);
+      colorScaleGenerator = opts != null ? (ref = opts.heatmap) != null ? ref.colorScaleGenerator : void 0 : void 0;
+      if (colorScaleGenerator == null) {
+        colorScaleGenerator = function(values) {
+          var max, min;
+          min = Math.min.apply(Math, values);
+          max = Math.max.apply(Math, values);
+          return function(x) {
+            var nonRed;
+            nonRed = 255 - Math.round(255 * (x - min) / (max - min));
+            return "rgb(255," + nonRed + "," + nonRed + ")";
+          };
         };
-      };
+      }
       heatmapper = (function(_this) {
-        return function(scope, color) {
-          var colorFor, forEachCell, values;
+        return function(scope) {
+          var colorScale, forEachCell, values;
           forEachCell = function(f) {
             return _this.find(scope).each(function() {
               var x;
@@ -1404,28 +1410,28 @@
           forEachCell(function(x) {
             return values.push(x);
           });
-          colorFor = colorGen(color, Math.min.apply(Math, values), Math.max.apply(Math, values));
+          colorScale = colorScaleGenerator(values);
           return forEachCell(function(x, elem) {
-            return elem.css("background-color", "#" + colorFor(x));
+            return elem.css("background-color", colorScale(x));
           });
         };
       })(this);
       switch (scope) {
         case "heatmap":
-          heatmapper(".pvtVal", "red");
+          heatmapper(".pvtVal");
           break;
         case "rowheatmap":
-          for (i = l = 0, ref = numRows; 0 <= ref ? l < ref : l > ref; i = 0 <= ref ? ++l : --l) {
-            heatmapper(".pvtVal.row" + i, "red");
+          for (i = l = 0, ref1 = numRows; 0 <= ref1 ? l < ref1 : l > ref1; i = 0 <= ref1 ? ++l : --l) {
+            heatmapper(".pvtVal.row" + i);
           }
           break;
         case "colheatmap":
-          for (j = n = 0, ref1 = numCols; 0 <= ref1 ? n < ref1 : n > ref1; j = 0 <= ref1 ? ++n : --n) {
-            heatmapper(".pvtVal.col" + j, "red");
+          for (j = n = 0, ref2 = numCols; 0 <= ref2 ? n < ref2 : n > ref2; j = 0 <= ref2 ? ++n : --n) {
+            heatmapper(".pvtVal.col" + j);
           }
       }
-      heatmapper(".pvtTotal.rowTotal", "red");
-      heatmapper(".pvtTotal.colTotal", "red");
+      heatmapper(".pvtTotal.rowTotal");
+      heatmapper(".pvtTotal.colTotal");
       return this;
     };
 
