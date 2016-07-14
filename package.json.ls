@@ -32,4 +32,3 @@ devDependencies:
   chalk        : \~0.4.0
   cron         : \~1.0.3
   growly       : \~1.2.0
-  marked       : \0.3.1

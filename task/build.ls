@@ -4,7 +4,6 @@ Cron    = require \cron
 Emitter = require \events .EventEmitter
 Fs      = require \fs
 _       = require \lodash
-Md      = require \marked
 Path    = require \path
 Shell   = require \shelljs/global
 WFib    = require \wait.for .launchFiber
@@ -28,13 +27,9 @@ tasks  =
     ixt   : \ls
     oxt   : \js
     xsub  : 'json.js->json'
-  markdown:
-    cmd : markdown
-    ixt : \md
-    oxt : \html
   static:
     cmd : 'cp --target-directory $OUT $IN'
-    pat : '{ledger-pivot,*.{css,csv,jade,js,png,yaml}}'
+    pat : '{ledger-pivot,*.{css,csv,jade,js,md,png,yaml}}'
   stylus:
     cmd : "#NMODULES/stylus/bin/stylus --out $OUT $IN"
     ixt : \styl
@@ -111,11 +106,6 @@ function get-opath t, ipath
   p = ipath.replace t.ixt, t.oxt if t.ixt?
   return p or ipath unless (xsub = t.xsub?split '->')?
   p.replace xsub.0, xsub.1
-
-function markdown ipath, opath, cb
-  e, html <- Md cat ipath
-  html.to opath unless e?
-  cb e
 
 function prune-empty-dirs
   unless pwd! is Dir.BUILD then return log 'bypass prune-empty-dirs'
