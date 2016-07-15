@@ -17,6 +17,8 @@ function render
   sortAs     = $.pivotUtilities.sortAs
 
   $.pivotUtilities.renderers <<< $.pivotUtilities.subtotal_renderers
+  $.pivotUtilities.renderers <<< $.pivotUtilities.c3_renderers
+
   $ \#output .pivotUI it.transactions, (it.config.options or {}) <<< do
     dataClass: $.pivotUtilities.SubtotalPivotData
     derivedAttributes:
