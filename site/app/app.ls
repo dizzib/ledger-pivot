@@ -15,7 +15,10 @@ function render
   is-init    = true
   dateFormat = $.pivotUtilities.derivers.dateFormat
   sortAs     = $.pivotUtilities.sortAs
+
+  $.pivotUtilities.renderers <<< $.pivotUtilities.subtotal_renderers
   $ \#output .pivotUI it.transactions, (it.config.options or {}) <<< do
+    dataClass: $.pivotUtilities.SubtotalPivotData
     derivedAttributes:
       Year : dateFormat \Date '%y'
       Month: dateFormat \Date '%n'
