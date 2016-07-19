@@ -116,11 +116,11 @@ function start-watching tid
   log "start watching #tid"
   Assert.equal pwd!, Dir.ROOT
   pat = (t = tasks[tid]).pat or "*.#{t.ixt}"
-  dirs = "#{Dirname.SITE},#{Dirname.TASK}"
-  w = t.watcher = Choki.watch [ "{#dirs}/**/#pat" pat ],
-    cwd:Dir.ROOT
-    ignoreInitial:true
-    ignored:t.ignore
+  w = t.watcher = Choki.watch "**/#pat",
+    cwd: Dir.ROOT
+    ignoreInitial: true
+    ignored: <[ _build node_modules ]>
+    persistent: false
   w.on \all _.debounce process, 500ms, leading:true trailing:false
 
   function process act, ipath

@@ -1,5 +1,5 @@
 name       : \ledger-pivot
-version    : \0.2.0
+version    : \0.2.1
 description: "View ledger transactions in a pivot-table in a web browser."
 keywords   : <[ grid ledger pivot report table ]>
 homepage   : \https://github.com/dizzib/ledger-pivot
