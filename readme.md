@@ -4,7 +4,7 @@ View [ledger] transactions in a [pivot-table] in a web browser:
 
 - define multiple reports via configuration
 - drag-drop headings
-- charts
+- subtotals and charts
 - pivot table layouts are automatically persisted to disk
 
 ## Screenshots
