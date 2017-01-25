@@ -116,10 +116,11 @@ function start-watching tid
   log "start watching #tid"
   Assert.equal pwd!, Dir.ROOT
   pat = (t = tasks[tid]).pat or "*.#{t.ixt}"
-  w = t.watcher = Choki.watch "**/#pat",
+  dirs = "#{Dirname.SITE},#{Dirname.TASK},readme"
+  w = t.watcher = Choki.watch [ "{#dirs}/**/#pat" pat ],
     cwd: Dir.ROOT
     ignoreInitial: true
-    ignored: <[ _build node_modules ]>
+    ignored:t.ignore
     persistent: false
   w.on \all _.debounce process, 500ms, leading:true trailing:false
 
@@ -129,17 +130,17 @@ function start-watching tid
     if (Path.basename ipath).0 is t?mixn
       try
         compile-batch tid
-        finalise ipath
+        me.emit \built
       catch e then G.err e
     else switch act
-      | \add, \change
-        try opath = W4 compile, t, ipath
-        catch e then return G.err e
-        G.ok opath
-        me.emit \built
-      | \unlink
-        Assert.equal pwd!, Dir.BUILD
-        try W4m Fs, \unlink, opath = get-opath t, ipath
-        catch e then throw e unless e.code is \ENOENT # not found i.e. already deleted
-        G.ok "Delete #opath"
-        me.emit \built
+    | \add \change
+      try opath = W4 compile, t, ipath
+      catch e then return G.err e
+      G.ok opath
+      me.emit \built
+    | \unlink
+      Assert.equal pwd!, Dir.BUILD
+      try W4m Fs, \unlink, opath = get-opath t, ipath
+      catch e then throw e unless e.code is \ENOENT # not found i.e. already deleted
+      G.ok "Delete #opath"
+      me.emit \built
