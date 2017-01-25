@@ -15,7 +15,7 @@ engines:
   npm : '>=1.0.x'
 dependencies:
   babyparse    : \0.4.3
-  chokidar     : \1.0.1
+  chokidar     : \1.6.1
   commander    : \2.6.0
   errorhandler : \1.3.2
   express      : \4.11.1

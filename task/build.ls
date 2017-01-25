@@ -78,11 +78,10 @@ module.exports = me = (new Emitter!) with
 function compile t, ipath, cb
   Assert.equal pwd!, Dir.BUILD
   ipath-abs = Path.resolve Dir.ROOT, ipath
-  odir = Path.dirname opath = get-opath t, ipath
-  mkdir \-p, odir # stylus fails if outdir doesn't exist
+  mkdir \-p odir = Path.dirname opath = get-opath t, ipath
   switch typeof t.cmd
   | \string =>
-    cmd = t.cmd.replace(\$IN, "'#ipath-abs'").replace \$OUT, "'#odir'"
+    cmd = t.cmd.replace(\$IN "'#ipath-abs'").replace \$OUT "'#odir'"
     log cmd
     code, res <- exec cmd
     log code, res if code
@@ -93,18 +92,17 @@ function compile t, ipath, cb
 
 function compile-batch tid
   t = tasks[tid]
-  w = t.watcher._watched
-  # https://github.com/paulmillr/chokidar/issues/281
-  files = [ p-abs for p, v of w for f of v._items
-    when test \-f p-abs = Path.join p, f ]
+  w = t.watcher.getWatched!
+  files = [ f for path, names of w for name in names
+    when test \-f f = Path.resolve Dir.ROOT, path, name ]
   info = "#{files.length} #tid files"
   G.say "compiling #info..."
   for f in files then W4 compile, t, Path.relative Dir.ROOT, f
   G.ok "...done #info!"
 
 function get-opath t, ipath
-  p = ipath.replace t.ixt, t.oxt if t.ixt?
-  return p or ipath unless (xsub = t.xsub?split '->')?
+  p = ipath.replace("#{Dir.ROOT}/", '').replace t.ixt, t.oxt
+  return p unless (xsub = t.xsub?split '->')?
   p.replace xsub.0, xsub.1
 
 function prune-empty-dirs
