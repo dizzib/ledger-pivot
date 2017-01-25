@@ -13,17 +13,12 @@ Dir     = require \./constants .dir
 Dirname = require \./constants .dirname
 G       = require \./growl
 
-const NMODULES = './node_modules'
+const BIN = './node_modules/.bin'
 
-pruner = new Cron.CronJob cronTime:'*/10 * * * *', onTick:prune-empty-dirs
+pruner = new Cron.CronJob cronTime:'*/10 * * * *' onTick:prune-empty-dirs
 tasks  =
-  #jade:
-  #  cmd : "node #NMODULES/jade/bin/jade.js --out $OUT $IN"
-  #  ixt : \jade
-  #  oxt : \html
-  #  mixn: \_
   livescript:
-    cmd   : "#NMODULES/LiveScript/bin/lsc --output $OUT $IN"
+    cmd   : "#BIN/lsc --output $OUT $IN"
     ixt   : \ls
     oxt   : \js
     xsub  : 'json.js->json'
@@ -31,7 +26,7 @@ tasks  =
     cmd : 'cp --target-directory $OUT $IN'
     pat : '{ledger-pivot,*.{css,csv,jade,js,md,png,yaml}}'
   stylus:
-    cmd : "#NMODULES/stylus/bin/stylus --out $OUT $IN"
+    cmd : "#BIN/stylus --out $OUT $IN"
     ixt : \styl
     oxt : \css
     mixn: \_
@@ -51,7 +46,7 @@ module.exports = me = (new Emitter!) with
   delete-modules: ->
     log "delete-modules #{pwd!}"
     Assert.equal pwd!, Dir.BUILD
-    rm '-rf' "./node_modules"
+    rm \-rf \./node_modules
 
   refresh-modules: ->
     Assert.equal pwd!, Dir.BUILD
