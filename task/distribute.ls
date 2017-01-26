@@ -6,8 +6,9 @@ Dir    = require \./constants .dir
 
 module.exports =
   prepare: ->
-    cp \-f, "#{Dir.BUILD}/package.json", Dir.build.SITE
-    cp \-f, "#{Dir.ROOT}/readme.md", Dir.build.SITE
+    cp \-f "#{Dir.BUILD}/package.json" Dir.ROOT
+    cp \-f "#{Dir.BUILD}/package.json" Dir.build.SITE
+    cp \-f "#{Dir.ROOT}/readme.md" Dir.build.SITE
 
   publish-local: ->
     throw new Error 'please specify local dir on command line' unless dest = Args.npm-local

@@ -1,4 +1,5 @@
 ## ledger-pivot
+[![Build Status](https://travis-ci.org/dizzib/ledger-pivot.svg?branch=master)](https://travis-ci.org/dizzib/ledger-pivot)
 
 View [ledger] transactions in a [pivot-table] in a web browser:
 
@@ -44,12 +45,15 @@ of transaction csv data and (optionally) the pivot table's initial configuration
 
 ## developer build and run
 
-    $ npm install -g livescript   # ensure livescript is installed globally
-    $ git clone git@github.com:dizzib/ledger-pivot.git
+With [node.js] installed on the target box:
+
+    $ git clone --branch=dev https://github.com/dizzib/ledger-pivot.git
     $ cd ledger-pivot
-    $ ./task/bootstrap            # compile the task runner and install dependencies
-    $ node _build/task/repl       # launch the task runner
-    ledger-pivot > b.a            # build all and run
+    $ npm install       # install project dependencies
+    $ npm start         # build and start the task runner
+    ledger-pivot > b.a  # build all and start server
+
+Then navigate your web-browser to `http://your-server:7070` to view the [examples].
 
 ## license
 
