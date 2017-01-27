@@ -3,10 +3,11 @@
 
 View [ledger] transactions in a [pivot-table] in a web browser:
 
-- define multiple reports via configuration
 - drag-drop headings
-- subtotals and charts
+- drill-down: click a cell to view its transactions
+- [subtotals][pivot-subtotal] and charts
 - pivot table layouts are automatically persisted to disk
+- define multiple reports via configuration
 
 ## Screenshots
 
@@ -60,8 +61,9 @@ Then navigate your web-browser to `http://your-server:7070` to view the [example
 [MIT](./LICENSE)
 
 [$XDG_CONFIG_HOME]: http://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html
+[examples]: ./site/example
 [ledger]: http://www.ledger-cli.org
 [node.js]: http://nodejs.org
+[pivot-subtotal]: http://nagarajanchinnasamy.com/subtotal
 [pivot-table]: http://nicolas.kruchten.com/pivottable
 [settings.yaml]: ./site/config/settings.yaml
-[examples]: ./site/example
