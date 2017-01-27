@@ -26,11 +26,22 @@ function render
       Month: dateFormat \Date '%n'
       Day  : dateFormat \Date '%d'
     hiddenAttributes: <[ Date ]>
-    sorters: ->
-      sortAs <[ Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec ]> if it is \Month
     onRefresh: ->
       return is-init := false if is-init
       $.ajax "/api/#pid/persist/" do
         data:
           options: _.pick it, <[ aggregatorName cols exclusions rendererName rows vals ]>
         error: -> log ...
+    rendererOptions:
+      table:
+        clickCallback: drilldown            # table
+        eventHandlers: 'click': drilldown   # table with subtotal
+    sorters: ->
+      sortAs <[ Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec ]> if it is \Month
+
+  function drilldown e, value, filters, pivotData
+    items = []
+    append = ->
+      items.push it.Date + ' ' + it.Payee + ' ' + it.Commodity + it.Amount
+    pivotData.forEachMatchingRecord filters, append
+    alert items.join '\n'
