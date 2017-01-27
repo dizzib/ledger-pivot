@@ -4,7 +4,7 @@
 View [ledger] transactions in a [pivot-table] in a web browser:
 
 - drag-drop headings
-- drill-down: click a cell to view its transactions
+- drill-down by clicking a cell to view its transactions
 - [subtotals][pivot-subtotal] and charts
 - pivot table layouts are automatically persisted to disk
 - define multiple reports via configuration
