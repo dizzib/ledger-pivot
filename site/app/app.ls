@@ -42,6 +42,7 @@ function render
   function drilldown e, value, filters, pivotData
     items = []
     append = ->
-      items.push it.Date + ' ' + it.Payee + ' ' + it.Commodity + it.Amount
+      amount = it.Commodity + parseFloat(it.Amount).toFixed 2
+      items.push (it.Date + ' ' + it.Payee + ' ' + amount + ' ' + it.Notes).trim!
     pivotData.forEachMatchingRecord filters, append
-    alert items.join '\n'
+    alert items.join '\n' if items.length
