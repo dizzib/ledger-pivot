@@ -16,7 +16,7 @@ module.exports =
       cb null buf.toString!
     else if cmd = settings.source?command
       log "run command: #cmd"
-      err, stdout, stderr <- Cp.exec cmd
+      err, stdout, stderr <- Cp.exec cmd, maxBuffer:1000 * 1024bytes
       return cb err if err
       cb null stdout.toString!
     else
