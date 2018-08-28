@@ -11,14 +11,18 @@ module.exports = (pid, cb) ->
   return cb parsed.errors if parsed.errors.length
   cb null, _.map parsed.data, ->
     [ date, code, payee, account, commodity, amount, status, notes ] = it
+    d = new Date date
+    y = d.getUTCFullYear! + if m = d.getUTCMonth! < 3 then 0 else 1
+    if m is 3 and d.getUTCDate! < 6 then y-- # 'UK tax year starts on 6 April
     tx =
-      AgeYears : M!subtract(1 \month).endOf(\month).diff new Date(date), \years
-      Date     : date
-      Code     : code
-      Payee    : payee
-      Commodity: commodity
+      AgeYears : M!subtract(1 \month).endOf(\month).diff d, \years
       Amount   : amount
-      Status   : status
+      Code     : code
+      Commodity: commodity
+      Date     : date
       Notes    : notes
+      Payee    : payee
+      Status   : status
+      TaxYear  : "#{y - 1}/#y"
     for i from 0 to 3 then tx["Account-Level-#i"] = (account / \:)[i] or ''
     tx
