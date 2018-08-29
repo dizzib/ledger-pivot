@@ -1,5 +1,5 @@
 name       : \ledger-pivot
-version    : \0.4.0
+version    : \0.4.1
 description: "View ledger transactions in a pivot-table in a web browser."
 keywords   : <[ grid ledger pivot report table ]>
 homepage   : \https://github.com/dizzib/ledger-pivot
@@ -14,7 +14,7 @@ scripts:
   start: './task/bootstrap && node ./_build/task/repl'
   test : './task/bootstrap && node ./_build/task/npm-test'
 engines:
-  node: '>=0.10.x'
+  node: '>=4.0.x'
   npm : '>=1.0.x'
 dependencies:
   babyparse    : \0.4.3
