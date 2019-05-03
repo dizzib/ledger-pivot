@@ -17,6 +17,7 @@ function render
   sortAs     = $.pivotUtilities.sortAs
 
   $.pivotUtilities.renderers <<< $.pivotUtilities.subtotal_renderers
+  $.pivotUtilities.renderers <<< $.pivotUtilities.plotly_renderers
   $.pivotUtilities.renderers <<< $.pivotUtilities.c3_renderers
   $.pivotUtilities.renderers <<< $.pivotUtilities.d3_renderers
 
