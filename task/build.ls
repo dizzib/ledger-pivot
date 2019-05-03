@@ -24,7 +24,7 @@ tasks  =
     xsub  : 'json.js->json'
   static:
     cmd : 'cp --target-directory $OUT $IN'
-    pat : '{ledger-pivot,*.{css,csv,jade,js,md,png,yaml}}'
+    pat : '{ledger-pivot,*.{css,csv,js,md,png,pug,yaml}}'
   stylus:
     cmd : "#BIN/stylus --out $OUT $IN"
     ixt : \styl

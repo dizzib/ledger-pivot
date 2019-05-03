@@ -4,7 +4,7 @@ ErrHan  = require \errorhandler
 Express = require \express
 Fs      = require \fs
 Http    = require \http
-Jade    = require \jade
+Pug     = require \pug
 Morgan  = require \morgan
 Path    = require \path
 Shell   = require \shelljs/global
@@ -29,7 +29,7 @@ express = Express!
     res.send config:(ApiCfg.get pid), transactions:txs
   ..use Express.static APPDIR
   ..use '/:pid', (req, res) ->
-    res.send Jade.renderFile "#APPDIR/app.jade", pids:CfgSet.get-pids!
+    res.send Pug.renderFile "#APPDIR/app.pug", pids:CfgSet.get-pids!
   ..use '/', (req, res) -> res.redirect Path.join '/' CfgSet.get-pids!0
   ..use ErrHan log: -> log it.stack
 
