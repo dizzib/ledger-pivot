@@ -18,7 +18,7 @@ engines:
   npm : '>=1.0.x'
 dependencies:
   babyparse    : \0.4.3
-  chokidar     : \1.6.1
+  chokidar     : \2.1.2
   commander    : \2.6.0
   errorhandler : \1.3.2
   express      : \4.11.1
@@ -33,7 +33,7 @@ dependencies:
 devDependencies:
   chalk        : \~0.4.0
   cron         : \~1.0.3
-  growly       : \~1.2.0
-  livescript   : \~1.5.0
-  stylus       : \~0.49.3
+  growly       : \~1.3.0
+  livescript   : \~1.6.0
+  stylus       : \~0.54.5
 preferGlobal: true
