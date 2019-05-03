@@ -35,9 +35,9 @@
     "http-status": "0.1.8",
     "jade": "1.9.2",
     "js-yaml": "3.2.5",
-    "lodash": "3.5.0",
-    "moment": "2.14.1",
-    "morgan": "1.5.1",
+    "lodash": "4.17.11",
+    "moment": "2.19.3",
+    "morgan": "1.9.1",
     "shelljs": "0.3.0",
     "wait.for": "0.6.6"
   },
