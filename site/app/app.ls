@@ -18,6 +18,7 @@ function render
 
   $.pivotUtilities.renderers <<< $.pivotUtilities.subtotal_renderers
   $.pivotUtilities.renderers <<< $.pivotUtilities.c3_renderers
+  $.pivotUtilities.renderers <<< $.pivotUtilities.d3_renderers
 
   $ \#output .pivotUI it.transactions, (it.config.options or {}) <<< do
     dataClass: $.pivotUtilities.SubtotalPivotData
