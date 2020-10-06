@@ -6,7 +6,7 @@ window.log = -> console.log ...&
 
 pid = _.trim window.location.pathname, '/'
 return $ \#output .text "Please specify pivot-id in the url e.g. /example" unless pid.length
-$.ajax "/api/#pid" error:render-error, success:render, timeout:5000ms
+$.ajax "/api/#pid" error:render-error, success:render, timeout:10000ms
 
 function render-error xhr, status, msg
   $ \#output .text "An error occurred when calling the server: #msg"
