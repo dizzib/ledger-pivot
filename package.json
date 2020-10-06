@@ -1,6 +1,6 @@
 {
   "name": "ledger-pivot",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "View ledger transactions in a pivot-table in a web browser.",
   "keywords": [
     "grid",
